@@ -9,8 +9,8 @@ const Message = forwardRef(({message, username}, ref) => {
 
   return (
     <div ref={ref} className={`message ${isUser && 'message__user'}`}>
-      <Card className={isUser ? 'message__userCard': 'message__guestCard'}>
-      <CardContent>
+      <Card className={isUser ? 'message__userCard': 'message__guestCard'} sx={{padding:1}}>
+      <CardContent sx={{padding:0.2 , "&:last-child":{paddingBottom:0.1}}}>
         <Typography 
         color="white" 
         variant="h5" 

@@ -12,7 +12,7 @@ html, body {
 
 .App {
   min-height: 100vh;
-  width: 100vw;
+  width: 100%;
   text-align: center;
   background-image: url("https://images.pexels.com/photos/3825880/pexels-photo-3825880.jpeg?cs=srgb&dl=pexels-evie-shaffer-1259279-3825880.jpg&fm=jpg");
   background-size: cover;
@@ -20,30 +20,53 @@ html, body {
   background-repeat: no-repeat;
   background-attachment: fixed;
   overflow-x: hidden;
+  padding-top: 120px;
+  padding-bottom: 240px; /* Doubled from 120px to 240px */
 }
 
-.app__msg{
+@media screen and (max-width: 768px) {
+  body {
+    overflow-y: auto;
+  }
+
+  .App {
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+    min-height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 200px; /* Doubled from 100px to 200px */
+  }
+
+  .app__form {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}
+
+.app__msg {
   color: rgb(0, 128, 28);
   font-family: Helvetica, Arial, sans-serif;
   text-shadow: 2px 0 #ffffff, -2px 0 #ffffff, 0 2px #ffffff, 0 -2px #ffffff,
                1px 1px #ffffff, -1px -1px #ffffff, 1px -1px #ffffff, -1px 1px #ffffff;
 }
 
-.app__welcome{
-  color: rgba(228, 7, 125, 0.986);
+.app__welcome {
+  color: rgba(0, 56, 21, 0.986);
   font-family: monospace;
   text-shadow: 2px 0 #ffffff, -2px 0 #ffffff, 0 2px #ffffff, 0 -2px #ffffff,
                1px 1px #ffffff, -1px -1px #ffffff, 1px -1px #ffffff, -1px 1px #ffffff;
 }
 
-@media screen and (max-width: 768px) {
-  .App {
-    background-size: cover;
-    background-position: center center;
-  }
-}
-
-.app__form{
+.app__form {
   padding: 20px;
   position: fixed;
   bottom: 0;
@@ -53,15 +76,15 @@ html, body {
   margin: 20px;
 }
 
-.app__formControl{
+.app__formControl {
   display: flex !important;
   flex-direction: row !important;
 }
 
-.app__input{
+.app__input {
   flex: 1;
 }
 
-.app__iconButton{
+.app__iconButton {
   flex: 0;
 }

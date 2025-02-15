@@ -1,83 +1,112 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { FormControl, Input } from '@mui/material';
 import './App.css';
 import Message from './Message';
 import { collection, onSnapshot, addDoc, serverTimestamp, query, orderBy } from 'firebase/firestore';
 import db from './firebase';
-import FlipMove from 'react-flip-move';
 import SendIcon from '@mui/icons-material/Send';
 import { IconButton } from '@mui/material';
+import FlipMove from 'react-flip-move';
+import SplashScreen from './SplashScreen';
 
 
 function App() {
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState([]);
   const [username, setUsername] = useState('');
+  const [showApp, setShowApp] = useState(false);
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    setTimeout(() => {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 100);  // Small delay to ensure DOM has updated
+  };
 
   useEffect(() => {
     const messagesRef = collection(db, 'messages');
-    const q = query(messagesRef, orderBy('timestamp', 'desc'));
+    const q = query(messagesRef, orderBy('timestamp', 'asc'));
     const unsubscribe = onSnapshot(q, snapshot => {
-      setMessages(snapshot.docs.map(doc =>({id: doc.id, message: doc.data()})));
+      const loadedMessages = snapshot.docs.map(doc => ({
+        id: doc.id,
+        message: doc.data()
+      }));
+      setMessages(loadedMessages);
+      scrollToBottom();
     });
 
     return () => unsubscribe();
   }, []);
 
   useEffect(() => {
-    setUsername(prompt('Please enter your name'));
+    let name = prompt('Please enter your name');
+    while (!name || name.trim() === '') {
+      name = prompt('Name is required. Please enter your name');
+    }
+    setUsername(name);
+    setShowApp(true);
   }, []);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const sendMessage = async (event) => {
     event.preventDefault();
-    
-    // Only send message if input is not empty
+
     if (input.trim()) {
       const messagesRef = collection(db, 'messages');
       await addDoc(messagesRef, {
-        username: username, 
+        username: username,
         message: input,
         timestamp: serverTimestamp()
       });
-      
-      // Explicitly clear the input
+
       setInput('');
+      scrollToBottom();  // Explicit scroll after sending message
     }
   };
 
+  if (!showApp) return null;
+
   return (
     <div className="App">
-      <img src="https://cdn2.iconfinder.com/data/icons/social-aquicons/512/Email.png" width={100} height={100} alt='messenger' />
-      <h1 className='app__msg'>🍃Leaf-Link🍃</h1>
-      <h2 className='app__welcome'>Hello {username}✨</h2>
+      <SplashScreen />
+      <img src="https://cdn4.iconfinder.com/data/icons/mails-1/48/expand-color-emails-01-512.png" width={120} height={120} alt='messenger' />
+      <h2 className='app__welcome'>Hello {username}✨, Welcome to Leaf-Link.<br></br>"Stay rooted in connection, let every message bloom."</h2>
+      <pre> </pre>
+      <pre> </pre>
+      <pre> </pre>
+      <pre> </pre>
 
       <form className='app__form'>
         <FormControl className='app__formControl'>
-          <Input 
-            className='app__input' 
-            placeholder="Enter a message..." 
-            value={input} 
+          <Input
+            className='app__input'
+            placeholder="Enter a message..."
+            value={input}
             onChange={event => setInput(event.target.value)}
           />
-          <IconButton 
-            className='app__iconButton' 
-            disabled={!input} 
-            variant="contained" 
-            type='submit' 
+          <IconButton
+            className='app__iconButton'
+            disabled={!input}
+            variant="contained"
+            type='submit'
             onClick={sendMessage}
           >
-            <SendIcon/>
+            <SendIcon />
           </IconButton>
         </FormControl>
       </form>
-      
+
       <FlipMove>
-      {
-        messages.map(({id, message}) => (
-          <Message key={id} username={username} message={message}/>
-        ))
-      }
+        {
+          messages.map(({ id, message }) => (
+            <Message key={id} username={username} message={message} />
+          ))
+        }
       </FlipMove>
+      <div ref={messagesEndRef} /> {/* Ensure this is at the very end */}
     </div>
   );
 }

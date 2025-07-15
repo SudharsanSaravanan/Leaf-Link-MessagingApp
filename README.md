@@ -3,9 +3,6 @@
 ## Overview
 Leaf-Link is a real-time messaging application built using React and Firebase, allowing users to send and receive messages instantly.
 
-## Live Demo
-🌐 [Leaf-Link Messenger](https://susmessenger.web.app)
-
 ## Features
 - Real-time messaging
 - User name identification

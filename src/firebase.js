@@ -1,17 +1,17 @@
+// firebase.js
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCWPs7ynzUdih60oADzqhCUgyTIgMZToF4",
-  authDomain: "susmessenger.firebaseapp.com",
-  projectId: "susmessenger",
-  storageBucket: "susmessenger.firestorage.app",
-  messagingSenderId: "764108662382",
-  appId: "1:764108662382:web:8c19c9b6f6fdcde6f9687f",
-  measurementId: "G-DY5SD5Y4W6"
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 

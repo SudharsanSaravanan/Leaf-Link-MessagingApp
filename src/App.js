@@ -72,7 +72,6 @@ function App() {
   return (
     <div className="App">
       <SplashScreen />
-      <img src="https://cdn4.iconfinder.com/data/icons/mails-1/48/expand-color-emails-01-512.png" width={120} height={120} alt='messenger' />
       <h2 className='app__welcome'>Hello {username}✨, Welcome to Leaf-Link.<br></br>"Stay rooted in connection, let every message bloom."</h2>
       <pre> </pre>
       <pre> </pre>
